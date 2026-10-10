@@ -3,7 +3,7 @@ package com.techlab;
 import java.util.Scanner;
 import com.techlab.productos.*;
 
-public class Main {
+    public class Main {
     
     private static final Scanner teclado = new Scanner(System.in);
     private static final GestorProductos gestor = new GestorProductos();
@@ -16,8 +16,9 @@ public class Main {
             input = Integer.parseInt(inputTeclado);
             manejarMenu(input);
 
-        teclado.close();
         } while (input != 7);
+
+        teclado.close();
 
     }
 
@@ -46,6 +47,7 @@ public class Main {
                 System.out.println("===================================");  
                 Producto nuevoP = crearProducto();
                 gestor.agregarProducto(nuevoP);
+                System.out.println("El producto " + nuevoP + "fue agregado correctamente.");  
                 break;
 
             case 2:
