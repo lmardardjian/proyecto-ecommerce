@@ -12,8 +12,7 @@ import com.techlab.productos.*;
         int input;
         do{
             mostrarMenu();
-            String inputTeclado = teclado.nextLine();
-            input = Integer.parseInt(inputTeclado);
+            input = leerEntero("\nElija una opción: ");
             manejarMenu(input);
 
         } while (input != 7);
@@ -35,7 +34,7 @@ import com.techlab.productos.*;
         System.out.printf(formatoMenu, "5)", "Crear un pedido");
         System.out.printf(formatoMenu, "6)", "Listar pedidos");
         System.out.printf(formatoMenu, "7)", "Salir");
-        System.out.print("\nElija una opción: ");
+    
     }
 
     static void manejarMenu(int opcion){
@@ -44,10 +43,10 @@ import com.techlab.productos.*;
         switch (opcion) {
             case 1:
                 System.out.printf(formatoMenu,"1)", "Agregar producto");
-                System.out.println("===================================");  
+                System.out.println("--------------------------------------------------");  
                 Producto nuevoP = crearProducto();
                 gestor.agregarProducto(nuevoP);
-                System.out.println("El producto " + nuevoP + "fue agregado correctamente.");  
+                System.out.println("El producto " + nuevoP + " fue agregado correctamente.");  
                 break;
 
             case 2:
@@ -71,8 +70,8 @@ import com.techlab.productos.*;
             case 4:
                 System.out.printf(formatoMenu,"4)", "Eliminar producto");
                 System.out.println("===================================");
-                System.out.print("Ingrese el ID del producto que desea eliminar: ");
-                gestor.eliminarProducto(Integer.parseInt(teclado.nextLine())); 
+                int idProducto = leerEntero("Ingrese el ID del producto que desea eliminar: ");
+                gestor.eliminarProducto(idProducto); 
                     
                 break;
 
@@ -98,14 +97,9 @@ import com.techlab.productos.*;
 
     static Producto crearProducto(){
         
-        System.out.print("Ingrese el nombre del producto: ");
-        String nombre = teclado.nextLine();
-
-        System.out.print("Ingrese el precio del producto: ");
-        double precio = Double.parseDouble(teclado.nextLine());
-
-        System.out.print("Ingrese el stock del producto: ");
-        int stock = Integer.parseInt(teclado.nextLine());
+        String nombre = leerTexto("Ingrese el nombre del producto: ");
+        double precio = leerDouble("Ingrese el precio del producto: ");
+        int stock = leerEntero("Ingrese el stock del producto: ");
 
         return new Producto(nombre, precio, stock);
     }
@@ -114,14 +108,12 @@ import com.techlab.productos.*;
         Producto p;
         switch (fB) {
             case 1:
-                System.out.print("Ingrese el ID del producto: ");
-                int id = Integer.parseInt(teclado.nextLine());
+                int id = leerEntero("Ingrese el ID del producto: "); 
                 p = gestor.busquedaPorId(id);
                 return p;
             
             case 2:
-                System.out.print("Ingrese el nombre del producto: ");
-                String nombre = teclado.nextLine();
+                String nombre = leerTexto("Ingrese el nombre del producto: ");
                 p = gestor.busquedaPorNombre(nombre);
                 return p;
 
@@ -135,8 +127,8 @@ import com.techlab.productos.*;
         String formatoSubOpciones = "%10s %-25s%n";
         System.out.printf(formatoSubOpciones, "1)", "Buscar por ID");
         System.out.printf(formatoSubOpciones, "2)", "Buscar por nombre");
-        System.out.print("\nElija una opción: ");
-        return Integer.parseInt(teclado.nextLine());
+        int seleccion = leerEntero("\nElija una opción: ");
+        return seleccion;
     }
 
     static private void gestionarActualizacion(Producto productoBuscado){
@@ -145,23 +137,21 @@ import com.techlab.productos.*;
         System.out.printf(formatoSubOpciones, "1)", "Actualizar stock");
         System.out.printf(formatoSubOpciones, "2)", "Actualizar precio");
         System.out.printf(formatoSubOpciones, "3)", "Volver al menú principal");;
-        int seleccion = Integer.parseInt(teclado.nextLine());
+        int seleccion = leerEntero("\nElija una opción: ");
 
         switch (seleccion) {
             case 1:
                 System.out.printf(formatoMenu,"1)", "Actualizar stock");
-                System.out.println("Ingrese el nuevo stock");
-                int nuevoStock = Integer.parseInt(teclado.nextLine());
+                int nuevoStock = leerEntero("Ingrese el nuevo stock: ");
                 gestor.actualizarStock(productoBuscado.getId(), nuevoStock);
-                System.out.println("Stock actualizado a: "+ nuevoStock);
+                System.out.print("Stock actualizado a: "+ nuevoStock);
                 break;
             
             case 2:
                 System.out.printf(formatoMenu,"2)", "Actualizar precio");
-                System.out.println("Ingrese el nuevo precio: ");
-                double nuevoPrecio = Double.parseDouble(teclado.nextLine());
+                double nuevoPrecio = leerDouble("Ingrese el nuevo precio: "); 
                 gestor.actualizarPrecio(productoBuscado.getId(), nuevoPrecio);
-                System.out.println("Precio actualizado a: "+ nuevoPrecio);
+                System.out.print("Precio actualizado a: "+ nuevoPrecio);
                 break;    
             
             case 3:
@@ -172,6 +162,43 @@ import com.techlab.productos.*;
                 break;
         }
 
+    }
+
+    static String leerTexto(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = teclado.nextLine().trim();
+
+            if (!texto.isEmpty()) {
+                return texto;
+            }
+
+            System.out.println("Error: el texto no puede estar vacío.");
+        }
+    }
+
+    static int leerEntero(String mensaje) {
+        while (true) {
+            System.out.println(mensaje);
+
+            try {
+                return Integer.parseInt(teclado.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: ingrese un número entero válido.");
+            }
+        }
+    }
+
+    static double leerDouble(String mensaje) {
+        while (true) {
+            System.out.println(mensaje);
+
+            try {
+                return Double.parseDouble(teclado.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: ingrese un número válido.");
+            }
+        }
     }
 
 }
