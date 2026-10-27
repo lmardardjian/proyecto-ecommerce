@@ -1,6 +1,8 @@
 package com.techlab;
 
 import java.util.Scanner;
+
+import com.techlab.excepciones.ProductoNoEncontradoException;
 import com.techlab.productos.*;
 
     public class Main {
@@ -13,8 +15,13 @@ import com.techlab.productos.*;
         do{
             mostrarMenu();
             input = leerEntero("\nElija una opción: ");
-            manejarMenu(input);
 
+            try {
+                manejarMenu(input);
+            } catch (ProductoNoEncontradoException | IllegalArgumentException e) {
+                System.out.println("Error: "+ e.getMessage());
+            }
+              
         } while (input != 7);
 
         teclado.close();
@@ -166,7 +173,7 @@ import com.techlab.productos.*;
 
     static String leerTexto(String mensaje) {
         while (true) {
-            System.out.print(mensaje);
+            System.out.println(mensaje);
             String texto = teclado.nextLine().trim();
 
             if (!texto.isEmpty()) {
