@@ -19,7 +19,7 @@ import com.techlab.productos.*;
             try {
                 manejarMenu(input);
             } catch (ProductoNoEncontradoException | IllegalArgumentException e) {
-                System.out.println("Error: "+ e.getMessage());
+                System.out.println(e.getMessage());
             }
               
         } while (input != 7);
