@@ -10,7 +10,7 @@ public class LineaPedido {
         this.cantidad = cantidad;
     }
 
-    public double calculoSubtotal (){
+    public double calcularSubtotal (){
         return cantidad * producto.getPrecio();
     }
 

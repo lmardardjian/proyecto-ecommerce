@@ -1,5 +1,6 @@
 package com.techlab;
 
+//import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.techlab.excepciones.ProductoNoEncontradoException;
@@ -207,5 +208,10 @@ import com.techlab.productos.*;
             }
         }
     }
-
+/* 
+    static Pedido crearPedido(){
+        List<Linea> lineas = new ArrayList<>();
+        
+    }
+*/
 }

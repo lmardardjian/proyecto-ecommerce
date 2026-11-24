@@ -1,11 +1,12 @@
 package com.techlab.productos;
 
 import java.util.ArrayList;
+import java.util.List;
 import com.techlab.excepciones.ProductoNoEncontradoException;
 
 public class GestorProductos {
 
-    private ArrayList<Producto> listaProductos = new ArrayList<>();
+    private List<Producto> listaProductos = new ArrayList<>();
 
     public void listarProductos(){
 
