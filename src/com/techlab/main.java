@@ -5,11 +5,13 @@ import java.util.Scanner;
 
 import com.techlab.excepciones.ProductoNoEncontradoException;
 import com.techlab.productos.*;
+import com.techlab.pedidos.*;
 
     public class Main {
     
     private static final Scanner teclado = new Scanner(System.in);
     private static final GestorProductos gestor = new GestorProductos();
+    private static final GestorPedidos gestorPe = new GestorPedidos();
 
     public static void main(String[] args){
         int input;
@@ -90,7 +92,8 @@ import com.techlab.productos.*;
 
             case 6:
                 System.out.printf(formatoMenu,"6)", "Listar pedidos");
-                System.out.println("===================================");  
+                System.out.println("===================================");
+                gestorPe.listarPedidos();
                 break;
 
             case 7:
