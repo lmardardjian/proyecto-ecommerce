@@ -1,12 +1,14 @@
 package com.techlab.pedidos;
+
 import com.techlab.productos.Producto;
 
 public class LineaPedido {
     private Producto producto;
     private int cantidad;
-    private final double precioUnitario; // Precio al momento de armar el pedido; no cambia si después se actualiza el producto.
+    private final double precioUnitario; // Precio al momento de armar el pedido; no cambia si después se actualiza el
+                                         // producto.
 
-    public LineaPedido (Producto producto, int cantidad){
+    public LineaPedido(Producto producto, int cantidad) {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("Error: la cantidad debe ser mayor a 0.");
         }
@@ -15,21 +17,21 @@ public class LineaPedido {
         this.precioUnitario = producto.getPrecio();
     }
 
-    public double calcularSubtotal (){
+    public double calcularSubtotal() {
         return cantidad * precioUnitario;
     }
 
-    //Getters
+    // Getters
 
-    public Producto getProducto(){
+    public Producto getProducto() {
         return this.producto;
     }
 
-    public int getCantidad(){
+    public int getCantidad() {
         return this.cantidad;
     }
 
-    public double getPrecioUnitario(){
+    public double getPrecioUnitario() {
         return this.precioUnitario;
     }
 

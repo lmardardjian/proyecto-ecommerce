@@ -13,7 +13,7 @@ public class Pedido {
     private int id; // 0 = todavía no confirmado. El ID lo asigna GestorPedidos al confirmar.
     private List<LineaPedido> lineas = new ArrayList<>();
 
-    public void agregarLinea(LineaPedido linea){
+    public void agregarLinea(LineaPedido linea) {
         Producto producto = linea.getProducto();
         int yaPedido = cantidadPedidaDe(producto);
         int disponible = producto.getStock() - yaPedido;
@@ -26,24 +26,26 @@ public class Pedido {
         lineas.add(linea);
     }
 
-    // Suma lo que ya se pidió de un producto en este pedido (puede estar en varias líneas).
-    public int cantidadPedidaDe(Producto producto){
+    // Suma lo que ya se pidió de un producto en este pedido (puede estar en varias
+    // líneas).
+    public int cantidadPedidaDe(Producto producto) {
         int total = 0;
 
-        for (LineaPedido linea : lineas){
-            if (linea.getProducto().getId() == producto.getId()){
+        for (LineaPedido linea : lineas) {
+            if (linea.getProducto().getId() == producto.getId()) {
                 total += linea.getCantidad();
             }
         }
         return total;
     }
 
-    public boolean estaVacio(){
+    public boolean estaVacio() {
         return lineas.isEmpty();
     }
 
-    // Visibilidad de paquete: solo GestorPedidos puede asignar el ID, y una sola vez.
-    void asignarId(int id){
+    // Visibilidad de paquete: solo GestorPedidos puede asignar el ID, y una sola
+    // vez.
+    void asignarId(int id) {
         if (this.id != 0) {
             throw new IllegalStateException("El pedido ya tiene un ID asignado.");
         }
@@ -51,33 +53,34 @@ public class Pedido {
     }
 
     // Visibilidad de paquete: solo se descuenta al confirmar, desde GestorPedidos.
-    void descontarStock(){
-        for (LineaPedido linea : lineas){
+    void descontarStock() {
+        for (LineaPedido linea : lineas) {
             Producto producto = linea.getProducto();
             producto.setStock(producto.getStock() - linea.getCantidad());
         }
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
-    public double calcularTotal(){
+    public double calcularTotal() {
 
         double total = 0;
 
-        for (LineaPedido linea : lineas){
+        for (LineaPedido linea : lineas) {
             total += linea.calcularSubtotal();
         }
         return total;
     }
 
-    public void mostrarLineas(){
+    public void mostrarLineas() {
         System.out.printf(FORMATO_ENCABEZADO, "Producto", "Cant.", "Precio", "Subtotal");
         System.out.println("-".repeat(53));
 
-        for (LineaPedido linea : lineas){
-            System.out.printf(FORMATO_FILA, linea.getProducto().getNombre(), linea.getCantidad(), linea.getPrecioUnitario(), linea.calcularSubtotal());
+        for (LineaPedido linea : lineas) {
+            System.out.printf(FORMATO_FILA, linea.getProducto().getNombre(), linea.getCantidad(),
+                    linea.getPrecioUnitario(), linea.calcularSubtotal());
         }
     }
 }

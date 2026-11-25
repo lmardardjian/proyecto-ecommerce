@@ -8,9 +8,9 @@ public class GestorPedidos {
     private List<Pedido> listaPedidos = new ArrayList<>();
     private int contador = 0;
 
-    // Confirmar un pedido: recibe su ID, descuenta el stock y queda guardado.
-    public void agregarPedido(Pedido pedido){
-        if (pedido == null || pedido.estaVacio()){
+    // Confirmar un pedido: le asigna un ID, descuenta el stock y queda guardado.
+    public void agregarPedido(Pedido pedido) {
+        if (pedido == null || pedido.estaVacio()) {
             throw new IllegalArgumentException("Error: no se puede confirmar un pedido vacío.");
         }
 
@@ -19,9 +19,9 @@ public class GestorPedidos {
         listaPedidos.add(pedido);
     }
 
-    public void listarPedidos(){
+    public void listarPedidos() {
 
-        if (listaPedidos.isEmpty()){
+        if (listaPedidos.isEmpty()) {
             System.out.println("No hay pedidos registrados.");
         } else {
             for (Pedido p : listaPedidos) {
