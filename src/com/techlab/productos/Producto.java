@@ -86,7 +86,13 @@ public class Producto {
                     } 
                 } 
             } 
-        return sb.toString(); 
+        return sb.toString();
+    }
+
+    // Sobrescribe el toString() heredado de Object para mostrar el producto de forma legible.
+    @Override
+    public String toString() {
+        return String.format("\"%s\" (ID %d, precio $%.2f, stock %d)", nombre, id, precio, stock);
     }
 
 }
