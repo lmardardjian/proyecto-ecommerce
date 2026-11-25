@@ -4,6 +4,7 @@ package com.techlab;
 import java.util.Scanner;
 
 import com.techlab.excepciones.ProductoNoEncontradoException;
+import com.techlab.excepciones.StockInsuficienteException;
 import com.techlab.productos.*;
 import com.techlab.pedidos.*;
 
@@ -87,7 +88,8 @@ import com.techlab.pedidos.*;
 
             case 5:
                 System.out.printf(formatoMenu,"5)", "Crear un pedido");
-                System.out.println("===================================");  
+                System.out.println("===================================");
+                crearPedido();
                 break;
 
             case 6:
@@ -211,10 +213,97 @@ import com.techlab.pedidos.*;
             }
         }
     }
-/* 
-    static Pedido crearPedido(){
-        List<Linea> lineas = new ArrayList<>();
-        
+    // Opción 5. Primer submenú: se muestra al entrar y se repite hasta que
+    // se agrega el primer producto o el usuario vuelve al menú principal.
+    static void crearPedido(){
+        String formatoSubOpciones = "%10s %-25s%n";
+        Pedido pedido = new Pedido();
+        int seleccion;
+
+        do {
+            System.out.printf(formatoSubOpciones, "1)", "Agregar producto al pedido");
+            System.out.printf(formatoSubOpciones, "2)", "Volver al menú principal");
+            seleccion = leerEntero("\nElija una opción: ");
+
+            switch (seleccion) {
+                case 1:
+                    agregarProductoAPedido(pedido);
+                    break;
+
+                case 2:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+                    break;
+            }
+        } while (seleccion != 2 && pedido.estaVacio());
+
+        if (!pedido.estaVacio()) {
+            gestionarPedido(pedido);
+        }
     }
-*/
+
+    // Segundo submenú: se repite hasta que el pedido se confirma o se cancela.
+    static private void gestionarPedido(Pedido pedido){
+        String formatoSubOpciones = "%10s %-25s%n";
+        int seleccion;
+
+        do {
+            System.out.println();
+            System.out.printf(formatoSubOpciones, "1)", "Agregar otro producto");
+            System.out.printf(formatoSubOpciones, "2)", "Mostrar pedido");
+            System.out.printf(formatoSubOpciones, "3)", "Confirmar pedido");
+            System.out.printf(formatoSubOpciones, "4)", "Cancelar pedido");
+            seleccion = leerEntero("\nElija una opción: ");
+
+            switch (seleccion) {
+                case 1:
+                    agregarProductoAPedido(pedido);
+                    break;
+
+                case 2:
+                    mostrarPedido(pedido);
+                    break;
+
+                case 3:
+                    mostrarPedido(pedido);
+                    gestorPe.agregarPedido(pedido);
+                    System.out.println("Pedido #" + pedido.getId() + " confirmado. Se descontó el stock.");
+                    break;
+
+                case 4:
+                    System.out.println("Pedido cancelado. No se modificó el stock.");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+                    break;
+            }
+        } while (seleccion != 3 && seleccion != 4);
+    }
+
+    // Si algo falla (ID inexistente, cantidad inválida o sin stock) se avisa
+    // y el pedido conserva las líneas que ya tenía.
+    static private void agregarProductoAPedido(Pedido pedido){
+        try {
+            int id = leerEntero("Ingrese el ID del producto: ");
+            Producto producto = gestor.busquedaPorId(id);
+            int cantidad = leerEntero("Ingrese la cantidad de \"" + producto.getNombre() + "\": ");
+
+            pedido.agregarLinea(new LineaPedido(producto, cantidad));
+            System.out.println(cantidad + " x " + producto.getNombre() + " agregado al pedido.");
+
+        } catch (ProductoNoEncontradoException | StockInsuficienteException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    static private void mostrarPedido(Pedido pedido){
+        pedido.mostrarLineas();
+        System.out.println("-".repeat(53));
+        System.out.printf("%-25s %32.2f%n", "TOTAL:", pedido.calcularTotal());
+    }
+
 }

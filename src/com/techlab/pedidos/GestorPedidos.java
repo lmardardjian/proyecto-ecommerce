@@ -6,11 +6,17 @@ import java.util.ArrayList;
 public class GestorPedidos {
 
     private List<Pedido> listaPedidos = new ArrayList<>();
+    private int contador = 0;
 
+    // Confirmar un pedido: recibe su ID, descuenta el stock y queda guardado.
     public void agregarPedido(Pedido pedido){
-        if (pedido != null){
-            listaPedidos.add(pedido);
+        if (pedido == null || pedido.estaVacio()){
+            throw new IllegalArgumentException("Error: no se puede confirmar un pedido vacío.");
         }
+
+        pedido.asignarId(++contador);
+        pedido.descontarStock();
+        listaPedidos.add(pedido);
     }
 
     public void listarPedidos(){
